@@ -1,26 +1,43 @@
 #include <iostream>
 #include <raylib.h>
 
+#include <imgui.h>
+#include <rlImGui.h>
+
 int main()
 {
-	SetTargetFPS(30);
-	InitWindow(800, 450, "my game");
+	SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+	InitWindow(800, 450, "window name");
 
-	int pos_x = 30;
-	int pos_y = 200;
-	int size = 100;
+	rlImGuiSetup(true);
 
 	while (!WindowShouldClose())
 	{
 		BeginDrawing();
-		ClearBackground(BLACK);
+		ClearBackground(RAYWHITE);
 
-		DrawRectangle(pos_x, pos_y, size, size, BLUE);
+		rlImGuiBegin();
 
-		pos_x += 1;
+		Color c;
+		c.r = 255;
+		c.g = 0;
+		c.b = 200;
+		c.a = 255;
+
+		DrawText("Congrats! You created your first window!", 190, 200, 20, c);
+
+		ImGui::Begin("test");
+
+		ImGui::Text("hello");
+		ImGui::Button("button");
+
+		ImGui::End();
+		
+		rlImGuiEnd();
 		EndDrawing();
 	}
 
+	rlImGuiShutdown();
 	CloseWindow();
 
 	return 0;

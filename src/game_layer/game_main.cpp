@@ -1,5 +1,6 @@
 #include <raylib.h>
 #include "game_main.h"
+#include <asserts.h>
 
 struct GameData
 {

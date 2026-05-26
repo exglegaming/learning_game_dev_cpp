@@ -13,7 +13,7 @@ int main()
 #endif
 
 	SetConfigFlags(FLAG_WINDOW_RESIZABLE);
-	InitWindow(800, 450, "window name");
+	InitWindow(800, 450, "Terraria Clone");
 	SetExitKey(KEY_NULL); // Disable Esc from closing window
 	SetTargetFPS(240);
 
@@ -30,7 +30,7 @@ int main()
 	while (!WindowShouldClose())
 	{
 		BeginDrawing();
-		ClearBackground(RAYWHITE);
+		ClearBackground(BLACK);
 
 		rlImGuiBegin();
 		// Docking stuff for ImGui...

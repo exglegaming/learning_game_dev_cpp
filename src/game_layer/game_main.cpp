@@ -7,6 +7,7 @@
 struct GameData
 {
 	GameMap game_map;
+	Camera2D camera;
 };
 
 GameData game_data;
@@ -24,6 +25,10 @@ bool InitGame()
 	game_data.game_map.GetBlockUnsafe(3, 3).type = Block::dirt;
 	game_data.game_map.GetBlockUnsafe(4, 4).type = Block::dirt;
 
+	game_data.camera.target = {0, 0};
+	game_data.camera.rotation = 0.0f;
+	game_data.camera.zoom = 100.0f;
+
 	return true;
 }
 
@@ -32,7 +37,16 @@ bool UpdateGame()
 	float delta_time = GetFrameTime();
 	if (delta_time > 1.f / 5) { delta_time = 1 / 5.f; }
 
+	game_data.camera.offset = {GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f};
+
 	ClearBackground({75, 75, 150, 255});
+
+	if (IsKeyDown(KEY_A)) game_data.camera.target.x -= 7.f * delta_time;
+	if (IsKeyDown(KEY_D)) game_data.camera.target.x += 7.f * delta_time;
+	if (IsKeyDown(KEY_W)) game_data.camera.target.y -= 7.f * delta_time;
+	if (IsKeyDown(KEY_S)) game_data.camera.target.y += 7.f * delta_time;
+
+	BeginMode2D(game_data.camera);
 
 	for (int y = 0; y < game_data.game_map.h; y++)
 	{
@@ -42,7 +56,7 @@ bool UpdateGame()
 
 			if (b.type != Block::air)
 			{
-				float size = 32.0;
+				float size = 1.0;
 				float pos_x = x * size;
 				float pos_y = y * size;
 
@@ -58,6 +72,7 @@ bool UpdateGame()
 		}
 	}
 	
+	EndMode2D();
 
 	return true;
 }

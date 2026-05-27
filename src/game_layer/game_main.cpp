@@ -3,6 +3,7 @@
 #include <asset_manager.h>
 #include <asserts.h>
 #include <game_map.h>
+#include <helpers.h>
 
 struct GameData
 {
@@ -20,10 +21,10 @@ bool InitGame()
 	game_data.game_map.Create(30, 10);
 
 	game_data.game_map.GetBlockUnsafe(0, 0).type = Block::dirt;
-	game_data.game_map.GetBlockUnsafe(1, 1).type = Block::dirt;
-	game_data.game_map.GetBlockUnsafe(2, 2).type = Block::dirt;
-	game_data.game_map.GetBlockUnsafe(3, 3).type = Block::dirt;
-	game_data.game_map.GetBlockUnsafe(4, 4).type = Block::dirt;
+	game_data.game_map.GetBlockUnsafe(1, 1).type = Block::grass;
+	game_data.game_map.GetBlockUnsafe(2, 2).type = Block::goldBlock;
+	game_data.game_map.GetBlockUnsafe(3, 3).type = Block::glass;
+	game_data.game_map.GetBlockUnsafe(4, 4).type = Block::platform;
 
 	game_data.camera.target = {0, 0};
 	game_data.camera.rotation = 0.0f;
@@ -56,14 +57,11 @@ bool UpdateGame()
 
 			if (b.type != Block::air)
 			{
-				float size = 1.0;
-				float pos_x = x * size;
-				float pos_y = y * size;
-
+				
 				DrawTexturePro(
-					asset_manager.dirt,
-					Rectangle{0, 0, (float)asset_manager.dirt.width, (float)asset_manager.dirt.height}, // Source
-					{pos_x, pos_y, size, size}, // Destination
+					asset_manager.textures,
+					GetTextureAtlas(b.type, 0, 32, 32), // Source
+					{(float)x, (float)y, 1, 1}, // Destination
 					{0, 0}, // Origin (top-left corner)
 					0.0f, // Rotaion
 					WHITE // Tint
